@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Search,
   MapPin,
@@ -64,6 +64,21 @@ const App = () => {
     { id: 3, name: 'Jane Doe' },
   ];
 
+    const fileInputRef = useRef(null);
+
+  const handleChoosePhoto = () => {
+    fileInputRef.current?.click(); // Trigger hidden file input
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      console.log("Selected file:", file);
+      setNewPost({ ...newPost, image: URL.createObjectURL(file) });
+      // TODO: Upload to Firebase / Cloudinary / Server or Preview
+    }
+  };
+
 
 
   const [showFilterModal, setShowFilterModal] = useState(false);
@@ -110,7 +125,7 @@ const App = () => {
     setCurrentView('home');
   };
 
-  const logout = () => {
+  const logout = () => {    
     setUser(null);
     setCurrentView('login');
   };
@@ -598,12 +613,26 @@ const App = () => {
               </div>
 
               <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:bg-gray-50 transition duration-200 cursor-pointer">
-                <Upload size={32} className="mx-auto text-gray-400 mb-2" />
-                <p className="text-gray-600 text-sm">Upload photo for better identification</p>
-                <button type="button" className="mt-2 text-blue-500 text-sm hover:underline transition">
-                  Choose Photo
-                </button>
-              </div>
+      <Upload size={32} className="mx-auto text-gray-400 mb-2" />
+      <p className="text-gray-600 text-sm">Upload photo for better identification</p>
+
+      <button
+        type="button"
+        onClick={handleChoosePhoto}
+        className="mt-2 text-blue-500 text-sm hover:underline transition"
+      >
+        Choose Photo
+      </button>
+
+      {/* Hidden File Input */}
+      <input
+        type="file"
+        accept="image/*"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        className="hidden"
+      />
+    </div>
 
               <button
                 type="button"
@@ -861,7 +890,7 @@ const App = () => {
   // Profile Screen
   if (currentView === 'profile') {
     return (
-      <ProfileSection BottomNav={BottomNav} />
+      <ProfileSection BottomNav={BottomNav} logout={logout} />
       // <div className="min-h-screen bg-gray-50 pb-20">
       //   <div className="bg-white shadow-sm">
       //     <div className="max-w-md mx-auto px-4 py-6">

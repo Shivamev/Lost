@@ -9,7 +9,7 @@ import {
   LogOut,
 } from 'lucide-react';
 
-const ProfileSection = ({BottomNav}) => {
+const ProfileSection = ({BottomNav,logout}) => {
   const [showSettings, setShowSettings] = useState(false);
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
 
@@ -18,11 +18,11 @@ const ProfileSection = ({BottomNav}) => {
     email: 'shivam@example.com',
   };
 
-  const logout = () => {
-    // Replace this with real logout logic if needed
-    console.log('User logged out');
-    setShowLogoutPopup(false);
-  };
+//   const logout = () => {
+//     // Replace this with real logout logic if needed
+//     console.log('User logged out');
+//     setShowLogoutPopup(false);
+//   };
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 font-fancy animate-fadeIn">
@@ -71,23 +71,35 @@ const ProfileSection = ({BottomNav}) => {
           </button>
 
           {/* Accordion for Settings */}
-          <button
-            className="w-full flex items-center p-4 hover:bg-gray-50 transition duration-200 border-b border-gray-100 active:scale-[0.98]"
-            onClick={() => setShowSettings(!showSettings)}
-          >
-            <Settings size={20} className="text-gray-600 mr-3" />
-            <span className="text-gray-800 font-medium">Settings</span>
-            <span className="ml-auto">
-              {showSettings ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-            </span>
-          </button>
-          {showSettings && (
-            <div className="px-6 py-4 text-sm text-gray-600 bg-gray-50 animate-fadeIn border-t border-gray-100">
-              <p className="mb-1">• Change password</p>
-              <p className="mb-1">• Notification preferences</p>
-              <p>• Privacy & visibility</p>
-            </div>
-          )}
+    <button
+  className="w-full flex items-center p-4 hover:bg-gray-100 transition duration-200 border-b border-gray-200 active:scale-[0.98] rounded-t-lg"
+  onClick={() => setShowSettings(!showSettings)}
+>
+  <Settings size={20} className="text-gray-600 mr-3" />
+  <span className="text-gray-800 font-semibold text-base">Settings</span>
+  <span className="ml-auto text-gray-500">
+    {showSettings ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+  </span>
+</button>
+
+{showSettings && (
+  <div className="px-4 py-4 bg-gray-50 border-x border-b border-gray-200 rounded-b-lg animate-fadeIn">
+    {[
+      'Change password',
+      'Notification preferences',
+      'Privacy & visibility',
+    ].map((option, index) => (
+      <div
+        key={index}
+        className="flex items-center gap-3 p-3 mb-2 bg-white hover:bg-blue-50 text-gray-700 rounded-xl border border-gray-200 cursor-pointer transition-all duration-200 group hover:shadow-sm active:scale-95"
+      >
+        {/* <span className="w-2 h-2 rounded-full bg-blue-400 group-hover:bg-blue-600 transition"></span> */}
+        <span className="text-sm font-medium">{option}</span>
+      </div>
+    ))}
+  </div>
+)}
+
 
           {/* Logout */}
           <button
