@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Search, 
   MapPin, 
@@ -21,6 +21,7 @@ import {
   X,
   ChevronLeft
 } from 'lucide-react';
+import ProfileSection from './profile';
 
 const App = () => {
   const [currentView, setCurrentView] = useState('login');
@@ -74,6 +75,12 @@ const App = () => {
     setCurrentView('login');
   };
 
+ const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+
   const sendMessage = () => {
     if (newMessage.trim()) {
       setChatMessages([...chatMessages, {
@@ -87,7 +94,7 @@ const App = () => {
   };
 
   // Bottom Navigation Component
-  const BottomNav = () => (
+   const BottomNav = () => (
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-2">
       <div className="flex justify-around items-center max-w-md mx-auto">
         <button
@@ -108,8 +115,8 @@ const App = () => {
           onClick={() => setCurrentView('add')}
           className="flex flex-col items-center p-2 bg-blue-500 text-white rounded-xl scale-110"
         >
-          <Plus size={24} />
-          <span className="text-xs mt-1">Post</span>
+          <Plus size={32} />
+          {/* <span className="text-xs mt-1">Post</span> */}
         </button>
         <button
           onClick={() => setCurrentView('notifications')}
@@ -132,167 +139,175 @@ const App = () => {
   // Login Screen
   if (currentView === 'login') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
-          <div className="text-center mb-8">
-            <div className="bg-blue-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search className="text-white" size={32} />
-            </div>
-            <h1 className="text-2xl font-bold text-gray-800 mb-2">Lost & Found</h1>
-            <p className="text-gray-600">Find what's lost, return what's found</p>
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      <div
+        className={`bg-white rounded-2xl shadow-xl p-8 w-full max-w-md transform transition-all duration-500 ease-out hover:shadow-2xl ${
+          mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <div className="bg-blue-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
+            <Search className="text-white" size={32} />
           </div>
-          
-          <div className="space-y-4">
-            <button
-              onClick={() => login({ name: 'John Doe', email: 'john@example.com' })}
-              className="w-full bg-blue-500 text-white py-3 rounded-xl font-medium hover:bg-blue-600 transition-colors"
-            >
-              Login with Phone/OTP
-            </button>
-            <button
-              onClick={() => login({ name: 'Anonymous User' })}
-              className="w-full border border-gray-300 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-50 transition-colors"
-            >
-              Continue as Guest
-            </button>
-            <button
-              onClick={() => login({ name: 'Google User', email: 'google@example.com' })}
-              className="w-full bg-red-500 text-white py-3 rounded-xl font-medium hover:bg-red-600 transition-colors"
-            >
-              Continue with Google
-            </button>
-          </div>
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">Lost & Found</h1>
+          <p className="text-gray-600">Find what's lost, return what's found</p>
+        </div>
+
+        {/* Buttons */}
+        <div className="space-y-4">
+          <button
+            onClick={() => login({ name: 'John Doe', email: 'john@example.com' })}
+            className="w-full bg-blue-500 text-white py-3 rounded-xl font-medium hover:bg-blue-600 hover:shadow-md active:scale-95 transition-all duration-200"
+          >
+            Login with Phone/OTP
+          </button>
+          <button
+            onClick={() => login({ name: 'Anonymous User' })}
+            className="w-full border border-gray-300 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-50 hover:shadow-sm active:scale-95 transition-all duration-200"
+          >
+            Continue as Guest
+          </button>
+          <button
+            onClick={() => login({ name: 'Google User', email: 'google@example.com' })}
+            className="w-full bg-red-500 text-white py-3 rounded-xl font-medium hover:bg-red-600 hover:shadow-md active:scale-95 transition-all duration-200"
+          >
+            Continue with Google
+          </button>
         </div>
       </div>
+    </div>
     );
   }
 
   // Home Screen
 if (currentView === 'home') {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pb-24">
-      {/* Header */}
-      <div className="bg-white shadow-md sticky top-0 z-10">
-        <div className="max-w-md mx-auto px-4 py-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Lost & Found</h1>
-              <p className="text-sm text-gray-500 mt-1">Welcome back, {user?.name} 👋</p>
-            </div>
-            <button className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition">
-              <Bell size={22} className="text-gray-600" />
-            </button>
+     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pb-24 font-fancy">
+
+    {/* Header */}
+    <div className="bg-white shadow-md sticky top-0 z-10 animate-slideUp">
+      <div className="max-w-md mx-auto px-4 py-5">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Lost & Found</h1>
+            <p className="text-sm text-gray-500 mt-1">
+              Welcome back, {user?.name} 👋
+            </p>
           </div>
-        </div>
-      </div>
-
-      {/* Search Bar */}
-      <div className="max-w-md mx-auto px-4 mt-4">
-        <div className="relative">
-          <Search className="absolute left-3 top-3 text-gray-400" size={20} />
-          <input
-            type="text"
-            placeholder="Search lost or found items..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-full focus:ring-2 focus:ring-blue-500 bg-white shadow-sm"
-          />
-        </div>
-      </div>
-
-      {/* Categories */}
-      <div className="max-w-md mx-auto px-4 mt-4 overflow-x-auto scrollbar-hide">
-        <div className="flex space-x-2 pb-2">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap ${
-                selectedCategory === category
-                  ? 'bg-blue-600 text-white shadow'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Posts */}
-      <div className="max-w-md mx-auto px-4 mt-6">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold text-gray-800">Recent Posts</h2>
-          <button className="flex items-center text-blue-600 text-sm hover:underline">
-            <Filter size={16} className="mr-1" />
-            Filter
+          <button className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition duration-300">
+            <Bell size={22} className="text-gray-600" />
           </button>
         </div>
+      </div>
+    </div>
 
-        {posts.map((post) => (
-          <div
-            key={post.id}
-            className="bg-white rounded-xl shadow-sm hover:shadow-md transition cursor-pointer mb-5"
-            onClick={() => {
-              setSelectedPost(post);
-              setCurrentView('detail');
-            }}
+    {/* Search Bar */}
+    <div className="max-w-md mx-auto px-4 mt-4 animate-fadeIn">
+      <div className="relative">
+        <Search className="absolute left-3 top-3 text-gray-400" size={20} />
+        <input
+          type="text"
+          placeholder="Search lost or found items..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-full focus:ring-2 focus:ring-blue-500 bg-white shadow-sm transition-all duration-300 focus:shadow-lg"
+        />
+      </div>
+    </div>
+
+    {/* Categories */}
+    <div className="max-w-md mx-auto px-4 mt-4 overflow-x-auto scrollbar-hide animate-fadeIn">
+      <div className="flex space-x-2 pb-2">
+        {categories.map((category) => (
+          <button
+            key={category}
+            onClick={() => setSelectedCategory(category)}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+              selectedCategory === category
+                ? 'bg-blue-600 text-white shadow-md animate-bounceIn'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
           >
-            <div className="relative">
-              <img
-                src={post.image}
-                alt={post.title}
-                className="w-full h-48 object-cover rounded-t-xl"
-              />
-              <div
-                className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-semibold ${
-                  post.type === 'lost'
-                    ? 'bg-red-500 text-white'
-                    : 'bg-green-500 text-white'
-                }`}
-              >
-                {post.type.toUpperCase()}
-              </div>
-              <div
-                className={`absolute top-3 right-3 px-2 py-1 rounded-full text-xs font-medium ${
-                  post.status === 'active'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-500 text-white'
-                }`}
-              >
-                {post.status === 'active' ? 'ACTIVE' : 'CLAIMED'}
-              </div>
-            </div>
-
-            <div className="p-4">
-              <h3 className="font-bold text-lg text-gray-900">{post.title}</h3>
-              <p className="text-gray-600 text-sm mt-1 mb-3 line-clamp-2">{post.description}</p>
-
-              <div className="flex items-center text-xs text-gray-500 space-x-4">
-                <span className="flex items-center">
-                  <MapPin size={12} className="mr-1" />
-                  {post.location}
-                </span>
-                <span className="flex items-center">
-                  <Clock size={12} className="mr-1" />
-                  {post.date}
-                </span>
-                {post.claims > 0 && (
-                  <span className="flex items-center">
-                    <Eye size={12} className="mr-1" />
-                    {post.claims} claim{post.claims > 1 && 's'}
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
+            {category}
+          </button>
         ))}
       </div>
-
-      <BottomNav />
     </div>
+
+    {/* Posts */}
+    <div className="max-w-md mx-auto px-4 mt-6 animate-slideUp">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-semibold text-gray-800">Recent Posts</h2>
+        <button className="flex items-center text-blue-600 text-sm hover:underline transition duration-300">
+          <Filter size={16} className="mr-1" />
+          Filter
+        </button>
+      </div>
+
+      {posts.map((post, idx) => (
+        <div
+          key={post.id}
+          className="bg-white rounded-xl shadow-card hover:shadow-md hover:scale-[1.01] transition-all duration-300 cursor-pointer mb-5 animate-fadeIn"
+          style={{ animationDelay: `${idx * 0.05}s`, animationFillMode: 'both' }}
+          onClick={() => {
+            setSelectedPost(post);
+            setCurrentView('detail');
+          }}
+        >
+          <div className="relative">
+            <img
+              src={post.image}
+              alt={post.title}
+              className="w-full h-48 object-cover rounded-t-xl transition duration-300 hover:brightness-95"
+            />
+            <div
+              className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-semibold ${
+                post.type === 'lost' ? 'bg-red-500' : 'bg-green-500'
+              } text-white shadow`}
+            >
+              {post.type.toUpperCase()}
+            </div>
+            <div
+              className={`absolute top-3 right-3 px-2 py-1 rounded-full text-xs font-medium ${
+                post.status === 'active' ? 'bg-blue-600' : 'bg-gray-500'
+              } text-white shadow`}
+            >
+              {post.status.toUpperCase()}
+            </div>
+          </div>
+
+          <div className="p-4">
+            <h3 className="font-bold text-lg text-gray-900">{post.title}</h3>
+            <p className="text-gray-600 text-sm mt-1 mb-3 line-clamp-2">{post.description}</p>
+
+            <div className="flex items-center text-xs text-gray-500 space-x-4">
+              <span className="flex items-center">
+                <MapPin size={12} className="mr-1" />
+                {post.location}
+              </span>
+              <span className="flex items-center">
+                <Clock size={12} className="mr-1" />
+                {post.date}
+              </span>
+              {post.claims > 0 && (
+                <span className="flex items-center">
+                  <Eye size={12} className="mr-1" />
+                  {post.claims} claim{post.claims > 1 && 's'}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <BottomNav />
+  </div>
   );
 }
+
+
 
 
   // Add Post Screen
@@ -641,59 +656,60 @@ if (currentView === 'add') {
   // Profile Screen
   if (currentView === 'profile') {
     return (
-      <div className="min-h-screen bg-gray-50 pb-20">
-        <div className="bg-white shadow-sm">
-          <div className="max-w-md mx-auto px-4 py-6">
-            <div className="text-center">
-              <div className="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <User size={32} className="text-white" />
-              </div>
-              <h1 className="text-xl font-bold text-gray-800">{user?.name}</h1>
-              <p className="text-gray-600">{user?.email || 'No email'}</p>
-              <div className="flex justify-center space-x-4 mt-4">
-                <div className="text-center">
-                  <div className="text-lg font-bold text-gray-800">12</div>
-                  <div className="text-xs text-gray-600">Posts</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-lg font-bold text-gray-800">8</div>
-                  <div className="text-xs text-gray-600">Helped</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-lg font-bold text-gray-800">4.8</div>
-                  <div className="text-xs text-gray-600">Rating</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <ProfileSection BottomNav={BottomNav}/>
+      // <div className="min-h-screen bg-gray-50 pb-20">
+      //   <div className="bg-white shadow-sm">
+      //     <div className="max-w-md mx-auto px-4 py-6">
+      //       <div className="text-center">
+      //         <div className="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+      //           <User size={32} className="text-white" />
+      //         </div>
+      //         <h1 className="text-xl font-bold text-gray-800">{user?.name}</h1>
+      //         <p className="text-gray-600">{user?.email || 'No email'}</p>
+      //         <div className="flex justify-center space-x-4 mt-4">
+      //           <div className="text-center">
+      //             <div className="text-lg font-bold text-gray-800">12</div>
+      //             <div className="text-xs text-gray-600">Posts</div>
+      //           </div>
+      //           <div className="text-center">
+      //             <div className="text-lg font-bold text-gray-800">8</div>
+      //             <div className="text-xs text-gray-600">Helped</div>
+      //           </div>
+      //           <div className="text-center">
+      //             <div className="text-lg font-bold text-gray-800">4.8</div>
+      //             <div className="text-xs text-gray-600">Rating</div>
+      //           </div>
+      //         </div>
+      //       </div>
+      //     </div>
+      //   </div>
 
-        <div className="max-w-md mx-auto px-4 py-4">
-          <div className="bg-white rounded-xl shadow-sm">
-            <button className="w-full flex items-center p-4 hover:bg-gray-50 transition-colors border-b border-gray-100">
-              <List size={20} className="text-gray-600 mr-3" />
-              <span className="text-gray-800">My Posts</span>
-            </button>
-            <button className="w-full flex items-center p-4 hover:bg-gray-50 transition-colors border-b border-gray-100">
-              <Award size={20} className="text-gray-600 mr-3" />
-              <span className="text-gray-800">Badges & Rewards</span>
-            </button>
-            <button className="w-full flex items-center p-4 hover:bg-gray-50 transition-colors border-b border-gray-100">
-              <Settings size={20} className="text-gray-600 mr-3" />
-              <span className="text-gray-800">Settings</span>
-            </button>
-            <button 
-              onClick={logout}
-              className="w-full flex items-center p-4 hover:bg-gray-50 transition-colors"
-            >
-              <User size={20} className="text-gray-600 mr-3" />
-              <span className="text-gray-800">Logout</span>
-            </button>
-          </div>
-        </div>
+      //   <div className="max-w-md mx-auto px-4 py-4">
+      //     <div className="bg-white rounded-xl shadow-sm">
+      //       <button className="w-full flex items-center p-4 hover:bg-gray-50 transition-colors border-b border-gray-100">
+      //         <List size={20} className="text-gray-600 mr-3" />
+      //         <span className="text-gray-800">My Posts</span>
+      //       </button>
+      //       <button className="w-full flex items-center p-4 hover:bg-gray-50 transition-colors border-b border-gray-100">
+      //         <Award size={20} className="text-gray-600 mr-3" />
+      //         <span className="text-gray-800">Badges & Rewards</span>
+      //       </button>
+      //       <button className="w-full flex items-center p-4 hover:bg-gray-50 transition-colors border-b border-gray-100">
+      //         <Settings size={20} className="text-gray-600 mr-3" />
+      //         <span className="text-gray-800">Settings</span>
+      //       </button>
+      //       <button 
+      //         onClick={logout}
+      //         className="w-full flex items-center p-4 hover:bg-gray-50 transition-colors"
+      //       >
+      //         <User size={20} className="text-gray-600 mr-3" />
+      //         <span className="text-gray-800">Logout</span>
+      //       </button>
+      //     </div>
+      //   </div>
 
-        <BottomNav />
-      </div>
+      //   <BottomNav />
+      // </div>
     );
   }
 
