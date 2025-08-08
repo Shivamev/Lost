@@ -55,6 +55,36 @@ const App = () => {
     }
   ]);
 
+
+  const [showFilterModal, setShowFilterModal] = useState(false);
+
+
+  const [newPost, setNewPost] = useState({
+  title: '',
+  description: '',
+  category: 'Electronics',
+  location: '',
+  image: '', // We'll simulate image upload
+});
+const [allPosts, setAllPosts] = useState(posts); // Use this as the actual post list
+
+const handleAddPost = () => {
+  const postToAdd = {
+    id: Date.now(),
+    ...newPost,
+    type: postType,
+    user: user?.name || 'Guest User',
+    status: 'active',
+    date: new Date().toISOString().split('T')[0],
+    image: newPost.image || 'https://via.placeholder.com/200', // fallback image
+    claims: 0,
+  };
+  setAllPosts([postToAdd, ...allPosts]);
+  setNewPost({ title: '', description: '', category: 'Electronics', location: '', image: '' });
+  setCurrentView('home');
+};
+
+
   const [selectedPost, setSelectedPost] = useState(null);
   const [postType, setPostType] = useState('lost');
   const [searchQuery, setSearchQuery] = useState('');
@@ -239,13 +269,78 @@ if (currentView === 'home') {
     <div className="max-w-md mx-auto px-4 mt-6 animate-slideUp">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold text-gray-800">Recent Posts</h2>
-        <button className="flex items-center text-blue-600 text-sm hover:underline transition duration-300">
-          <Filter size={16} className="mr-1" />
-          Filter
-        </button>
+      <button
+  onClick={() => setShowFilterModal(true)}
+  className="flex items-center text-blue-600 text-sm hover:underline transition duration-300"
+>
+  <Filter size={16} className="mr-1" />
+  Filter
+</button>
+
+{showFilterModal && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white rounded-xl p-6 w-full max-w-sm shadow-lg">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-bold">Filter Items</h2>
+        <button onClick={() => setShowFilterModal(false)}><X size={20} /></button>
       </div>
 
-      {posts.map((post, idx) => (
+      <div className="space-y-4">
+        <div>
+          <label className="block text-sm mb-1 font-medium text-gray-700">Category</label>
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="w-full p-3 border rounded-lg"
+          >
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm mb-1 font-medium text-gray-700">Search</label>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full p-3 border rounded-lg"
+            placeholder="Search by title..."
+          />
+        </div>
+
+        <div className="flex justify-end space-x-3 mt-4">
+          <button
+            onClick={() => {
+              setSearchQuery('');
+              setSelectedCategory('all');
+              setShowFilterModal(false);
+            }}
+            className="text-gray-700 border px-4 py-2 rounded-lg"
+          >
+            Reset
+          </button>
+          <button
+            onClick={() => setShowFilterModal(false)}
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+          >
+            Apply
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+      </div>
+
+      {allPosts
+  .filter((post) => 
+    (selectedCategory === 'all' || post.category === selectedCategory) &&
+    post.title.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+  .map((post, idx) => (
         <div
           key={post.id}
           className="bg-white rounded-xl shadow-card hover:shadow-md hover:scale-[1.01] transition-all duration-300 cursor-pointer mb-5 animate-fadeIn"
@@ -361,38 +456,48 @@ if (currentView === 'add') {
           <form className="space-y-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
-              <input
-                type="text"
-                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
-                placeholder={`What did you ${postType}?`}
-              />
+           <input
+  type="text"
+  className="..."
+  placeholder={`What did you ${postType}?`}
+  value={newPost.title}
+  onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
+/>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-              <textarea
-                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none h-24 transition"
-                placeholder="Provide details to help with identification..."
-              />
+            <textarea
+  className="..."
+  placeholder="Provide details..."
+  value={newPost.description}
+  onChange={(e) => setNewPost({ ...newPost, description: e.target.value })}
+/>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-              <select className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
-                <option>Electronics</option>
-                <option>Personal Items</option>
-                <option>Pets</option>
-                <option>Documents</option>
-              </select>
+             <select
+  value={newPost.category}
+  onChange={(e) => setNewPost({ ...newPost, category: e.target.value })}
+  className="..."
+>
+  <option>Electronics</option>
+  <option>Personal Items</option>
+  <option>Pets</option>
+  <option>Documents</option>
+</select>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
-              <input
-                type="text"
-                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
-                placeholder="Where was it lost/found?"
-              />
+         <input
+  type="text"
+  className="..."
+  placeholder="Where was it lost/found?"
+  value={newPost.location}
+  onChange={(e) => setNewPost({ ...newPost, location: e.target.value })}
+/>
             </div>
 
             <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:bg-gray-50 transition duration-200 cursor-pointer">
@@ -403,13 +508,18 @@ if (currentView === 'add') {
               </button>
             </div>
 
-            <button
-              type="button"
-              onClick={() => setCurrentView('home')}
-              className="w-full bg-blue-500 text-white py-3 rounded-xl font-medium hover:bg-blue-600 active:scale-95 transition-all"
-            >
-              Post {postType === 'lost' ? 'Lost' : 'Found'} Item
-            </button>
+   <button
+  type="button"
+  onClick={() => {
+    handleAddPost(); // Add the post
+    setCurrentView('home'); // Then go to home
+  }}
+  className="w-full bg-blue-500 text-white py-3 rounded-xl font-medium hover:bg-blue-600 active:scale-95 transition-all"
+>
+  Post {postType === 'lost' ? 'Lost' : 'Found'} Item
+</button>
+
+
           </form>
         </div>
       </div>
