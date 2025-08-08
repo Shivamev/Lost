@@ -216,21 +216,35 @@ if (currentView === 'home') {
      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pb-24 font-fancy">
 
     {/* Header */}
-    <div className="bg-white shadow-md sticky top-0 z-10 animate-slideUp">
-      <div className="max-w-md mx-auto px-4 py-5">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Lost & Found</h1>
-            <p className="text-sm text-gray-500 mt-1">
-              Welcome back, {user?.name} 👋
-            </p>
-          </div>
-          <button className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition duration-300">
-            <Bell size={22} className="text-gray-600" />
-          </button>
+    <div className="bg-white shadow-md sticky top-0 z-10 animate-slideUp transition-all duration-300">
+  <div className="max-w-md mx-auto px-4 py-4">
+    <div className="flex items-center justify-between">
+      
+      {/* Logo & Branding */}
+      <div className="flex items-center space-x-3">
+        <div className="bg-blue-100 text-blue-600 p-2 rounded-full shadow-sm hover:scale-105 transition-transform duration-300">
+          <MapPin size={20} />
+        </div>
+        <div>
+          <h1 className="text-xl font-bold text-gray-800 tracking-tight hover:text-blue-600 transition-colors duration-300">
+            Lost & Found
+          </h1>
+          <p className="text-xs text-gray-500 mt-0.5">
+            Welcome back, <span className="font-medium text-gray-700">{user?.name || "Guest"} 👋</span>
+          </p>
         </div>
       </div>
+
+      {/* Notification Button */}
+      <button className="relative p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-all duration-300 shadow-sm group">
+        <Bell size={20} className="text-gray-600 group-hover:text-blue-500 transition-colors duration-300" />
+        <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-ping" />
+        <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full" />
+      </button>
     </div>
+  </div>
+</div>
+
 
     {/* Search Bar */}
     <div className="max-w-md mx-auto px-4 mt-4 animate-fadeIn">
