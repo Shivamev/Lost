@@ -23,6 +23,7 @@ import {
   Phone,
   Mail,
   MapPin,
+  Award,
   Plus
 } from 'lucide-react';
 
@@ -199,7 +200,87 @@ const ProfileSection = ({ BottomNav, logout, user, allPosts, setCurrentView, set
                 <span className="stat-label">Rating</span>
               </div>
             </div>
-
+            
+            {/* Badges Section */}
+            <div className="badges-section">
+            <h3 className="badges-title">Achievements</h3>
+            <div className="badges-grid">
+                {userProfile.isVerified && (
+                <div className="badge-item verified">
+                    <div className="badge-icon">
+                    <CheckCircle size={20} />
+                    </div>
+                    <div className="badge-info">
+                    <span className="badge-name">Verified</span>
+                    <span className="badge-description">Account verified</span>
+                    </div>
+                </div>
+                )}
+                
+                {userPosts.length >= 1 && (
+                <div className="badge-item active">
+                    <div className="badge-icon">
+                    <FileText size={20} />
+                    </div>
+                    <div className="badge-info">
+                    <span className="badge-name">Active Poster</span>
+                    <span className="badge-description">{userPosts.length}+ posts</span>
+                    </div>
+                </div>
+                )}
+                
+                {userClaims.filter(c => c.status === 'approved').length >= 1 && (
+                <div className="badge-item helpful">
+                    <div className="badge-icon">
+                    <CheckCircle size={20} />
+                    </div>
+                    <div className="badge-info">
+                    <span className="badge-name">Helper</span>
+                    <span className="badge-description">Successful claims</span>
+                    </div>
+                </div>
+                )}
+                
+                <div className="badge-item community">
+                <div className="badge-icon">
+                    <Shield size={20} />
+                </div>
+                <div className="badge-info">
+                    <span className="badge-name">Trusted</span>
+                    <span className="badge-description">Follows guidelines</span>
+                </div>
+                </div>
+                
+                {new Date().getTime() - new Date(userProfile.joinDate).getTime() > 30 * 24 * 60 * 60 * 1000 && (
+                <div className="badge-item veteran">
+                    <div className="badge-icon">
+                    <Award size={20} />
+                    </div>
+                    <div className="badge-info">
+                    <span className="badge-name">Veteran</span>
+                    <span className="badge-description">30+ days member</span>
+                    </div>
+                </div>
+                )}
+                
+                <div className="badge-item newcomer">
+                <div className="badge-icon">
+                    <User size={20} />
+                </div>
+                <div className="badge-info">
+                    <span className="badge-name">Community Member</span>
+                    <span className="badge-description">Welcome to the community!</span>
+                </div>
+                </div>
+            </div>
+            
+            {/* Show More Badges Button */}
+            <button className="show-all-badges-btn">
+                <Award size={16} />
+                View All Achievements
+            </button>
+            </div>
+     
             {/* Anonymity Toggle */}
             <div className="anonymity-section">
               <div className="toggle-header">

@@ -918,6 +918,236 @@
   .setting-button svg:first-child {
     color: #667eea;
   }
+  /* Badges Section */
+.badges-section {
+    padding: 24px;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .badges-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .badges-title::before {
+    content: '🏆';
+    font-size: 20px;
+  }
+  
+  .badges-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  
+  .badge-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .badge-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    border-radius: 2px;
+  }
+  
+  .badge-item.verified {
+    border-color: rgba(16, 185, 129, 0.3);
+  }
+  
+  .badge-item.verified::before {
+    background: #10b981;
+  }
+  
+  .badge-item.active {
+    border-color: rgba(102, 126, 234, 0.3);
+  }
+  
+  .badge-item.active::before {
+    background: #667eea;
+  }
+  
+  .badge-item.helpful {
+    border-color: rgba(245, 158, 11, 0.3);
+  }
+  
+  .badge-item.helpful::before {
+    background: #f59e0b;
+  }
+  
+  .badge-item.community {
+    border-color: rgba(139, 92, 246, 0.3);
+  }
+  
+  .badge-item.community::before {
+    background: #8b5cf6;
+  }
+  
+  .badge-item.veteran {
+    border-color: rgba(239, 68, 68, 0.3);
+  }
+  
+  .badge-item.veteran::before {
+    background: #ef4444;
+  }
+  
+  .badge-item.newcomer {
+    border-color: rgba(6, 182, 212, 0.3);
+  }
+  
+  .badge-item.newcomer::before {
+    background: #06b6d4;
+  }
+  
+  .badge-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .badge-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+  }
+  
+  .badge-item.verified .badge-icon {
+    background: linear-gradient(135deg, #10b981, #059669);
+  }
+  
+  .badge-item.active .badge-icon {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+  }
+  
+  .badge-item.helpful .badge-icon {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+  }
+  
+  .badge-item.community .badge-icon {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  }
+  
+  .badge-item.veteran .badge-icon {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+  }
+  
+  .badge-item.newcomer .badge-icon {
+    background: linear-gradient(135deg, #06b6d4, #0891b2);
+  }
+  
+  .badge-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+  }
+  
+  .badge-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #2d3748;
+  }
+  
+  .badge-description {
+    font-size: 13px;
+    color: #718096;
+  }
+  
+  .show-all-badges-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px 20px;
+    background: white;
+    border: 2px dashed #cbd5e0;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #667eea;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .show-all-badges-btn:hover {
+    background: rgba(102, 126, 234, 0.05);
+    border-color: #667eea;
+    transform: translateY(-1px);
+  }
+  
+  /* Badge Animation */
+  @keyframes badgeGlow {
+    0%, 100% {
+      box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+    }
+  }
+  
+  .badge-item.verified,
+  .badge-item.active {
+    animation: badgeGlow 3s ease-in-out infinite;
+  }
+  
+  /* Responsive Design for Badges */
+  @media (max-width: 480px) {
+    .badges-section {
+      padding: 20px;
+    }
+    
+    .badges-grid {
+      gap: 10px;
+    }
+    
+    .badge-item {
+      padding: 10px 12px;
+    }
+    
+    .badge-icon {
+      width: 36px;
+      height: 36px;
+    }
+    
+    .badge-name {
+      font-size: 14px;
+    }
+    
+    .badge-description {
+      font-size: 12px;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .badges-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
   
   /* Responsive Design */
   @media (max-width: 480px) {
@@ -934,7 +1164,7 @@
     }
     
     .quick-stats {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1;
       gap: 12px;
     }
     
