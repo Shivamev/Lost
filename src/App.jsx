@@ -29,14 +29,14 @@ import {
   MapIcon,
   Sliders
 } from 'lucide-react';
-import ProfileSection from './profile';
+import ProfileSection from './ProfileSection';
 import WelcomeScreen from './WelcomeScreen';
 import SignupScreen from './SignupScreen';
 import './MainScreen.css';
 import './ClaimProcess.css';
 import './DetailScreen.css';
 import './SearchScreen.css';
-
+import './Profile.css';
 
 const App = () => {
   const [currentView, setCurrentView] = useState('loading'); // Start with loading
@@ -541,13 +541,7 @@ const App = () => {
               <p className="search-results-text">
                 Use the search above to find lost or found items in your area
               </p>
-              <button 
-                className="browse-all-btn"
-                onClick={() => setCurrentView('map')}
-              >
-                Browse All Items on Map
-                <ArrowRight size={16} className="ml-2" />
-              </button>
+              
             </div>
           </div>
         </div>
@@ -1333,12 +1327,19 @@ const App = () => {
   }
 
   // Profile Screen
-  if (currentView === 'profile') {
-    return (
-      <ProfileSection BottomNav={BottomNav} logout={logout} />
-    );
-  }
-
+  // In your Profile screen condition:
+if (currentView === 'profile') {
+  return (
+    <ProfileSection 
+      BottomNav={BottomNav} 
+      logout={logout} 
+      user={user}
+      allPosts={allPosts}
+      setCurrentView={setCurrentView}
+      setSelectedPost={setSelectedPost}
+    />
+  );
+}
   // Notifications Screen
   if (currentView === 'notifications') {
     return (
