@@ -784,34 +784,7 @@ const ProfileSection = ({ BottomNav, logout, user, allPosts, setCurrentView, set
               </div>
             </div>
 
-            {/* Privacy */}
-            <div className="settings-section">
-              <h3>Privacy</h3>
-              <div className="setting-items">
-                <div className="setting-item">
-                  <div className="setting-info">
-                    <span>Profile Visibility</span>
-                    <small>Who can see your profile</small>
-                  </div>
-                  <select className="setting-select">
-                    <option value="public">Everyone</option>
-                    <option value="users">Registered Users</option>
-                    <option value="private">Private</option>
-                  </select>
-                </div>
-
-                <div className="setting-item">
-                  <div className="setting-info">
-                    <span>Show Location</span>
-                    <small>Display your general location</small>
-                  </div>
-                  <label className="toggle-switch">
-                    <input type="checkbox" defaultChecked />
-                    <span className="toggle-slider"></span>
-                  </label>
-                </div>
-              </div>
-            </div>
+            
 
             {/* Preferences */}
             <div className="settings-section">
